@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>If Only This Worked… — Junior Research Retreat 2026</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --blue:      #326599;
+      --blue-dark: #1e4570;
+      --blue-lt:   #e8f0f7;
+      --text:      #111;
+      --muted:     #444;
+      --border:    #c8c8c8;
+      --bg:        #ffffff;
+    }
+
+    body {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 16px;
+      line-height: 1.7;
+      color: var(--text);
+      background: var(--bg);
+    }
+
+    a { color: var(--blue); }
+    a:hover { text-decoration: underline; }
+
+    /* ── header bar ── */
+    #site-header {
+      background: var(--blue);
+      color: #fff;
+      padding: 0.6rem 1.5rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.82rem;
+      letter-spacing: 0.03em;
+    }
+    #site-header span {
+      opacity: 0.75;
+      margin-left: 0.5rem;
+    }
+
+    /* ── title band ── */
+    #title-band {
+      background: var(--blue-lt);
+      border-bottom: 2px solid var(--blue);
+      padding: 1.8rem 1.5rem;
+    }
+    #title-band .title-inner {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+    #title-band .title-photo {
+      flex-shrink: 0;
+      width: 260px;
+      height: 160px;
+      object-fit: cover;
+      border: 1px solid var(--border);
+      display: block;
+    }
+    #title-band .title-photo-placeholder {
+      flex-shrink: 0;
+      width: 260px;
+      height: 160px;
+      border: 1px dashed var(--border);
+      background: #f0f4f8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.7rem;
+      color: #999;
+      text-align: center;
+      line-height: 1.4;
+    }
+    #title-band .title-text h1 {
+      font-family: Georgia, serif;
+      font-size: 2rem;
+      font-weight: normal;
+      color: var(--blue-dark);
+      line-height: 1.2;
+      margin-bottom: 0.3rem;
+    }
+    #title-band .title-text h1 em { font-style: italic; }
+    #title-band .title-text .subtitle {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin-top: 0.15rem;
+    }
+    .meta-line {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.85rem;
+      color: var(--blue-dark);
+      margin-top: 0.9rem;
+      line-height: 1.5;
+    }
+    .meta-line strong { font-weight: bold; }
+
+    /* ── two-column layout ── */
+    #main-wrap {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      display: grid;
+      grid-template-columns: 1fr 220px;
+      gap: 0 2.5rem;
+      align-items: start;
+    }
+    @media (max-width: 680px) {
+      #main-wrap { grid-template-columns: 1fr; }
+      #sidebar { border-left: none; border-top: 1px solid var(--border); padding: 1.5rem 0 0; margin-top: 0; }
+      #title-band .title-inner { flex-direction: column; align-items: flex-start; }
+    }
+
+    /* ── main content ── */
+    #content { padding: 2rem 0 3rem; }
+
+    #content h2 {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 1rem;
+      font-weight: bold;
+      color: var(--blue-dark);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.3rem;
+      margin: 2.2rem 0 0.8rem;
+    }
+    #content h2:first-child { margin-top: 0; }
+
+    #content p {
+      color: var(--muted);
+      margin-bottom: 0.85rem;
+      font-size: 0.97rem;
+    }
+    #content p:last-child { margin-bottom: 0; }
+
+    /* ── schedule table ── */
+    .sched-wrap { overflow-x: auto; margin: 1rem 0 0; }
+    table.sched {
+      border-collapse: collapse;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.78rem;
+      width: 100%;
+      min-width: 540px;
+    }
+    table.sched th {
+      background: var(--blue);
+      color: #fff;
+      font-weight: normal;
+      padding: 0.35rem 0.5rem;
+      text-align: center;
+      border: 1px solid var(--blue-dark);
+    }
+    table.sched td {
+      padding: 0.3rem 0.5rem;
+      text-align: center;
+      border: 1px solid var(--border);
+      vertical-align: top;
+      line-height: 1.35;
+    }
+    table.sched tr:nth-child(even) td { background: #f5f5f5; }
+    td.talks  { background: #fff8e8 !important; color: #5a3d00; }
+    td.collab { background: #e8f0f7 !important; color: #1e3a5a; }
+    td.social { background: #eaf4ea !important; color: #1e4a1e; }
+    td.meals  { color: #777; font-style: italic; }
+    td.travel { color: #777; font-style: italic; }
+
+    /* ── organizers ── */
+    .org-list {
+      list-style: none;
+      margin: 0.5rem 0 0;
+      padding: 0;
+      font-size: 0.93rem;
+      color: var(--muted);
+    }
+    .org-list li {
+      border-bottom: 1px solid #eee;
+      padding: 0.55rem 0;
+    }
+    .org-list li:last-child { border-bottom: none; }
+    .org-list .oname { font-weight: bold; color: var(--text); }
+    .org-list .ometa { font-size: 0.82rem; margin-top: 0.1rem; }
+    .org-list .ofocus { font-style: italic; }
+
+    /* ── sidebar ── */
+    #sidebar {
+      padding: 2rem 0 3rem 1.5rem;
+      border-left: 1px solid var(--border);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.82rem;
+    }
+    #sidebar h3 {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--blue-dark);
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.25rem;
+      margin-bottom: 0.6rem;
+      font-weight: bold;
+    }
+    #sidebar h3:not(:first-child) { margin-top: 1.8rem; }
+    #sidebar p, #sidebar li {
+      color: var(--muted);
+      line-height: 1.5;
+      margin-bottom: 0.4rem;
+    }
+    #sidebar ul { list-style: none; padding: 0; }
+    #sidebar ul li::before { content: "› "; color: var(--blue); }
+    .info-box {
+      background: var(--blue-lt);
+      border: 1px solid #aac4e0;
+      border-radius: 2px;
+      padding: 0.7rem 0.8rem;
+      margin-bottom: 1rem;
+      line-height: 1.5;
+      color: var(--blue-dark);
+    }
+
+    /* ── footer ── */
+    #footer {
+      background: #f0f0f0;
+      border-top: 1px solid var(--border);
+      padding: 1rem 1.5rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.76rem;
+      color: #888;
+    }
+  </style>
+</head>
+<body>
+
+<div id="site-header">
+  Junior Research Retreat in Mathematics
+  <span>· September 27 – October 2, 2026</span>
+</div>
+
+<div id="title-band">
+  <div class="title-inner">
+    <!-- Replace src with your image filename once uploaded alongside index.html -->
+    <div class="title-photo-placeholder">photo<br>goes here</div>
+    <div class="title-text">
+      <h1><em>If Only This Worked…</em></h1>
+      <div class="subtitle">A workshop on number theory and representation theory</div>
+      <div class="meta-line">
+        <strong>Dates:</strong> September 27 – October 2, 2026 &ensp;·&ensp;
+        <strong>Venue:</strong> <a href="https://www.hotel-seemoewe.de/">Hotel Seemöwe</a>, Eifel region, Germany &ensp;·&ensp;
+        <strong>~15 participants</strong>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="main-wrap">
+
+  <div id="content">
+
+    <h2>About</h2>
+    <p>
+      The workshop will provide a low-pressure atmosphere for young researchers working on number theory
+      and representation theory to talk about projects that they made progress on but did not finish,
+      with the aim of sparking new collaborations which take them in new, fruitful directions.
+      The mathematical topic is the Langlands program, which studies deep connections between number
+      theory and representation theory.
+    </p>
+
+    <h2>Format</h2>
+    <p>
+      The main focus of the retreat is collaboration. We will only have talks on the first three days
+      and, rather than a few long talks, will have talks lasting 30 minutes (speakers can give more
+      than one talk). The first three days will consist of six 30-minute talks in the morning and
+      early afternoon, breaks for coffee and lunch, and three hours of collaboration and discussion
+      time in the later afternoon. The mathematical component of the last two days will be entirely
+      focused on collaboration and discussion.
+    </p>
+
+    <h2>Schedule</h2>
+    <div class="sched-wrap">
+      <table class="sched">
+        <thead>
+          <tr>
+            <th>Sun 27 Sep</th>
+            <th>Mon 28 Sep</th>
+            <th>Tue 29 Sep</th>
+            <th>Wed 30 Sep</th>
+            <th>Thu 1 Oct</th>
+            <th>Fri 2 Oct</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="travel">Travel / Arrival</td>
+            <td class="meals">Breakfast</td>
+            <td class="meals">Breakfast</td>
+            <td class="meals">Breakfast</td>
+            <td class="meals">Breakfast</td>
+            <td class="meals">Breakfast</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td class="talks">Talks (×6, 30 min)</td>
+            <td class="talks">Talks (×6, 30 min)</td>
+            <td class="talks">Talks (×6, 30 min)</td>
+            <td class="collab">Group work</td>
+            <td class="collab">Group work</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td class="meals">Lunch</td>
+            <td class="meals">Lunch</td>
+            <td class="meals">Lunch</td>
+            <td class="meals">Lunch</td>
+            <td class="meals">Lunch</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td class="collab">Group work</td>
+            <td class="collab">Group work</td>
+            <td class="social">Group hike</td>
+            <td class="collab">Group work</td>
+            <td class="travel">Departure</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td class="social">Archery</td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="meals">Dinner</td>
+            <td class="meals">Dinner</td>
+            <td class="meals">Dinner</td>
+            <td class="meals">Dinner</td>
+            <td class="meals">Dinner</td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>Venue</h2>
+    <p>
+      The retreat will be held at the
+      <a href="https://www.hotel-seemoewe.de/">Hotel Seemöwe</a> in the beautiful Eifel region of Germany.
+      Room and board will be covered for all participants.
+    </p>
+
+    <h2>Support</h2>
+    <p>
+      This retreat is supported by the <a href="https://www.mathematics.uni-bonn.de/hsm-school">Hausdorff School of Mathematics</a>.
+          </p>
+
+    <h2>Organizers</h2>
+    <ul class="org-list">
+      <li>
+        <span class="oname">Peter Dillery</span><br>
+        <span class="ometa">University of Bonn &ensp;·&ensp; <a href="mailto:dillery@math.uni-bonn.de">dillery@math.uni-bonn.de</a></span>
+      </li>
+      <li>
+        <span class="oname">Aleksander Horawa</span><br>
+        <span class="ometa">University of Bonn &ensp;·&ensp; <a href="mailto:horawa@math.uni-bonn.de">horawa@math.uni-bonn.de</a></span>
+      </li>
+      <li>
+        <span class="oname">Jelena Ivancic</span><br>
+        <span class="ometa">University of Bonn / MPI Bonn &ensp;·&ensp; <a href="mailto:ivancic@mpim-bonn.mpg.de">ivancic@mpim-bonn.mpg.de</a></span>
+      </li>
+    </ul>
+
+  </div><!-- /content -->
+
+  <div id="sidebar">
+
+    <h3>Key Information</h3>
+    <div class="info-box">
+      <strong>Dates</strong><br>
+      27 September – 2 October 2026
+    </div>
+    <div class="info-box">
+      <strong>Venue</strong><br>
+      <a href="https://www.hotel-seemoewe.de/">Hotel Seemöwe</a><br>
+      Eifel region, Germany
+    </div>
+    <div class="info-box">
+      Room &amp; board covered for all participants.
+    </div>
+
+    <h3>Topics</h3>
+    <ul>
+      <li>Langlands program</li>
+      <li>Number theory</li>
+      <li>Representation theory</li>
+      <li><em>p</em>-adic Galois representations</li>
+      <li>Arithmetic aspects</li>
+    </ul>
+
+    <h3>Activities</h3>
+    <ul>
+      <li>Talks (Mon–Wed)</li>
+      <li>Group work sessions</li>
+      <li>Archery (Tuesday)</li>
+      <li>Group hike (Wednesday)</li>
+    </ul>
+
+  </div><!-- /sidebar -->
+
+</div><!-- /main-wrap -->
+
+<div id="footer">
+  <em>If Only This Worked…</em> — Junior Research Retreat in Mathematics — Eifel, September 2026
+  &ensp;·&ensp; Organized by P. Dillery, A. Horawa, J. Ivancic
+</div>
+
+</body>
+</html>

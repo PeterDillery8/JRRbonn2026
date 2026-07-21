@@ -28,84 +28,73 @@
     a { color: var(--blue); }
     a:hover { text-decoration: underline; }
 
-    /* ── header bar ── */
-    #site-header {
-      background: var(--blue);
-      color: #fff;
-      padding: 0.6rem 1.5rem;
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: 0.82rem;
-      letter-spacing: 0.03em;
-    }
-
     /* ── title band ── */
     #title-band {
-      background: var(--blue-lt);
-      border-bottom: 2px solid var(--blue);
-      padding: 1.8rem 1.5rem;
+      padding: 0;
+      border-bottom: none;
     }
     #title-band .title-inner {
-      display: flex;
-      align-items: center;
-      gap: 1.5rem;
+      position: relative;
     }
-    /* left column: photo stacked above HSM logo */
-    #title-band .title-left {
-      flex-shrink: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.9rem;
+    #title-band .title-banner {
+      position: relative;
+      width: 100%;
+      height: 560px;
+      overflow: hidden;
+      background: #1a2f3d;
     }
     #title-band .title-photo {
-      width: 260px;
-      height: 160px;
+      width: 100%;
+      height: 100%;
       object-fit: cover;
-      border: 1px solid var(--border);
       display: block;
+      filter: saturate(1.05);
     }
-    #title-band .title-photo-placeholder {
-      width: 260px;
-      height: 160px;
-      border: 1px dashed var(--border);
-      background: #f0f4f8;
+    #title-band .title-banner::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.45) 100%);
+    }
+    #title-band .title-bottom {
+      position: absolute;
+      inset: 0;
       display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: 0.7rem;
-      color: #999;
-      text-align: center;
-      line-height: 1.4;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 1.2rem;
+      flex-wrap: wrap;
+      padding: 2rem 1.5rem;
+      z-index: 1;
     }
     #title-band .hsm-logo {
       display: block;
-      height: 40px;
+      height: 72px;
       width: auto;
+      background: rgba(255, 255, 255, 0.95);
+      padding: 0.6rem 0.75rem;
+      border-radius: 4px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
     }
     #title-band .title-text h1 {
-      font-family: Georgia, serif;
-      font-size: 2rem;
-      font-weight: normal;
-      color: var(--blue-dark);
-      line-height: 1.2;
-      margin-bottom: 0.3rem;
-    }
-    #title-band .title-text h1 em { font-style: italic; }
-    #title-band .title-text .subtitle {
       font-family: Arial, Helvetica, sans-serif;
-      font-size: 0.9rem;
-      color: var(--muted);
-      margin-top: 0.15rem;
+      font-size: clamp(2.3rem, 4.8vw, 3.5rem);
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.1;
+      margin-bottom: 0.35rem;
+      text-shadow: 0 2px 12px rgba(0, 0, 0, 0.55);
     }
+    #title-band .title-text h1 em { font-style: normal; }
     .meta-line {
       font-family: Arial, Helvetica, sans-serif;
-      font-size: 0.85rem;
-      color: var(--blue-dark);
-      margin-top: 0.9rem;
+      font-size: 0.95rem;
+      color: rgba(255, 255, 255, 0.95);
+      margin-top: 0.6rem;
       line-height: 1.5;
+      text-shadow: 0 1px 6px rgba(0, 0, 0, 0.45);
     }
-    .meta-line strong { font-weight: bold; }
+    .meta-line strong { font-weight: 700; color: #fff; }
 
     /* ── two-column layout ── */
     #main-wrap {
@@ -120,7 +109,8 @@
     @media (max-width: 680px) {
       #main-wrap { grid-template-columns: 1fr; }
       #sidebar { border-left: none; border-top: 1px solid var(--border); padding: 1.5rem 0 0; margin-top: 0; }
-      #title-band .title-inner { flex-direction: column; align-items: flex-start; }
+      #title-band .title-banner { height: 420px; }
+      #title-band .title-bottom { flex-direction: column; align-items: flex-start; padding: 1.25rem; }
     }
 
     /* ── main content ── */
@@ -193,6 +183,46 @@
     .org-list .oname { font-weight: bold; color: var(--text); }
     .org-list .ometa { font-size: 0.82rem; margin-top: 0.1rem; }
 
+    /* ── participant list ── */
+    .participant-list {
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 0.9rem;
+      margin: 1rem 0 0;
+      padding: 0;
+    }
+    .participant-card {
+      background: linear-gradient(180deg, #f9fcfe 0%, #f4f8fc 100%);
+      border: 1px solid #dce7f0;
+      border-radius: 8px;
+      padding: 0.9rem 1rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    }
+    .participant-name {
+      display: block;
+      font-weight: 700;
+      color: var(--blue-dark);
+      margin-bottom: 0.25rem;
+    }
+    .participant-affiliation {
+      display: block;
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+    .participant-link {
+      display: inline-block;
+      margin-top: 0.55rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--blue);
+      text-decoration: none;
+    }
+    .participant-link:hover {
+      text-decoration: underline;
+    }
+
     /* ── sidebar ── */
     #sidebar {
       padding: 2rem 0 3rem 1.5rem;
@@ -241,25 +271,19 @@
 </head>
 <body>
 
-<div id="site-header">
-  Junior Research Retreat in Mathematics
-</div>
-
 <div id="title-band">
   <div class="title-inner">
-    <div class="title-left">
-      <img src="Eifel.jpeg" alt="Eifel landscape" class="title-photo">
+    <div class="title-banner">
+      <img src="eifel.jpg" alt="Eifel landscape" class="title-photo">
+    </div>
+    <div class="title-bottom">
+      <div class="title-text">
+        <h1><em>If Only This Worked…</em></h1>
+      </div>
       <a href="https://www.mathematics.uni-bonn.de/hsm-school">
         <img src="https://www.mathematics.uni-bonn.de/hsm-school/@@logo?logo_type=logo_desktop"
              alt="Hausdorff School for Mathematics" class="hsm-logo">
       </a>
-    </div>
-    <div class="title-text">
-      <h1><em>If Only This Worked…</em></h1>
-      <div class="meta-line">
-        <strong>Dates:</strong> September 27 – October 2, 2026 &ensp;·&ensp;
-        <strong>Venue:</strong> <a href="https://www.hotel-seemoewe.de/">Hotel Seemöwe</a>, Eifel region, Germany
-      </div>
     </div>
   </div>
 </div>
@@ -270,23 +294,21 @@
 
     <h2>About</h2>
     <p>
-      The workshop will provide a low-pressure atmosphere for young researchers working on number theory
-      and representation theory to talk about projects that they made progress on but did not finish,
-      with the aim of sparking new collaborations which take them in new, fruitful directions.
-      The mathematical topic is the Langlands program, broadly construed.
+       During this Junior Research Retreat, PhD students and postdocs in number theory and representation theory will share promising 
+       ideas they have worked on that didn't quite work out, and attempt to revive them with other
+      participants.
     </p>
 
     <h2>Format</h2>
     <p>
-      The main focus of the retreat is collaboration. We will only have talks on the first three days
-      and, rather than a few long talks, will have talks lasting 30 minutes (speakers can give more
-      than one talk). The first three days will consist of six 30-minute talks in the morning and
-      early afternoon, breaks for coffee and lunch, and three hours of collaboration and discussion
-      time in the later afternoon. The mathematical component of the last two days will be entirely
-      focused on collaboration and discussion.
+      The main focus of the retreat is low-stakes, relaxed collaboration. During the first two days, 
+      participants will give 30-minute pitches of their project ideas. The rest of the time will be 
+      spent in small groups, working on the ideas presented in the talks.
+
+      Breakfast, coffee breaks, lunch, and dinner will be provided for all participants.  
     </p>
 
-    <h2>Schedule</h2>
+    <h2>Tentative Schedule</h2>
     <div class="sched-wrap">
       <table class="sched">
         <thead>
@@ -310,9 +332,9 @@
           </tr>
           <tr>
             <td></td>
-            <td class="talks">Talks (×6, 30 min)</td>
-            <td class="talks">Talks (×6, 30 min)</td>
-            <td class="talks">Talks (×6, 30 min)</td>
+            <td class="talks">Pitches</td>
+            <td class="talks">Pitches</td>
+            <td class="collabl">Group work</td>
             <td class="collab">Group work</td>
             <td class="collab">Group work</td>
           </tr>
@@ -328,14 +350,14 @@
             <td></td>
             <td class="collab">Group work</td>
             <td class="collab">Group work</td>
-            <td class="social">Group hike</td>
+            <td class="social">Social activity</td>
             <td class="collab">Group work</td>
             <td class="travel">Departure</td>
           </tr>
           <tr>
             <td></td>
             <td></td>
-            <td class="social">Archery</td>
+            <td class="social">Social activity</td>
             <td></td>
             <td></td>
             <td></td>
@@ -351,6 +373,74 @@
         </tbody>
       </table>
     </div>
+
+    <h2>Participant list</h2>
+    <ul class="participant-list">
+      <li class="participant-card">
+        <span class="participant-name">Martin Ortiz</span>
+        <span class="participant-affiliation">MPIM Bonn</span>
+      </li>
+      <li class="participant-card">
+        <span class="participant-name">Julius Mann</span>
+        <span class="participant-affiliation">MPIM Bonn</span>
+      </li>
+      <li class="participant-card">
+        <span class="participant-name">Joe Baine</span>
+        <span class="participant-affiliation">MPIM Bonn</span>
+      </li>
+      <li class="participant-card">
+        <span class="participant-name">Saverio Caleca</span>
+        <span class="participant-affiliation">University of Duisburg-Essen</span>
+      </li>
+      <li class="participant-card">
+        <span class="participant-name">Hazem Hassan</span>
+        <span class="participant-affiliation">Heidelberg University</span>
+      </li>
+      <li class="participant-card">
+        <span class="participant-name">Marti Roset Julia</span>
+        <span class="participant-affiliation">ETH Zürich</span>
+      </li>
+      <li class="participant-card">
+        <span class="participant-name">Calle Sonne</span>
+        <span class="participant-affiliation">Imperial College London (LSGNT)</span>
+      </li>
+      <li class="participant-card">
+        <span class="participant-name">Zachary Feng</span>
+        <span class="participant-affiliation">University of Cambridge</span>
+      </li>
+      <li class="participant-card">
+        <span class="participant-name">Luca Marannino</span>
+        <span class="participant-affiliation">Università degli Studi di Milano</span>
+      </li>
+      <li class="participant-card">
+        <span class="participant-name">Carlo Kaul</span>
+        <span class="participant-affiliation">University of Münster</span>
+      </li>
+      <li class="participant-card">
+        <span class="participant-name">Charlotte Clare-Hunt</span>
+        <span class="participant-affiliation">University of Oxford</span>
+      </li>
+      <li class="participant-card">
+        <span class="participant-name">Simon Gabriel Alonso</span>
+        <span class="participant-affiliation">Imperial College London</span>
+      </li>
+      <li class="participant-card">
+        <span class="participant-name">Mike Daas</span>
+        <span class="participant-affiliation">University of Luxembourg</span>
+      </li>
+      <li class="participant-card">
+        <span class="participant-name">Mads Christensen</span>
+        <span class="participant-affiliation">MPIM Bonn</span>
+      </li>
+      <li class="participant-card">
+        <span class="participant-name">Jelena Ivancic</span>
+        <span class="participant-affiliation">MPIM Bonn</span>
+      </li>
+      <li class="participant-card">
+        <span class="participant-name">Aleksander Horawa</span>
+        <span class="participant-affiliation">University of Bonn</span>
+      </li>
+    </ul>
 
     <h2>Venue</h2>
     <p>
@@ -398,11 +488,11 @@
       Room &amp; board covered for all participants.
     </div>
 
-    <h3>Topics</h3>
+    <!-- <h3>Topics</h3>
     <ul>
       <li>Langlands program and arithmetic aspects</li>
       <li><em>p</em>-adic Galois representations</li>
-    </ul>
+    </ul> -->
 
     
 
